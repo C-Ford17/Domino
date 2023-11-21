@@ -34,7 +34,15 @@ public class Main {
                 case 1: // Poner ficha
                     StringBuilder menu2 = new StringBuilder();
                     menu2.append(fichas).append(listarFichasJugador(jugador.getFichas()));
-                    int opcion1 = Integer.parseInt(JOptionPane.showInputDialog(menu2));
+                    int opcion1;
+
+                    try {
+                        opcion1 = Integer.parseInt(JOptionPane.showInputDialog(menu2));
+                    } catch (NumberFormatException err) {
+                        JOptionPane.showMessageDialog(null,"Entrada invalida");
+                        continue;
+                    }
+
                     String[] opciones = {"Izquierda", "Derecha"};
 
                     if (!juego.getFichasEnMesa().isEmpty()) {
@@ -86,6 +94,7 @@ public class Main {
                     append(fichas.get(0).getValorDerecho()).append(")");
             return fichotas.toString();
         }
+
         if (fichas.get(0).getValorDerecho() == fichas.get(1).coincidencia(fichas.get(0)))
             fichotas.append("(").append(fichas.get(0).getValorIzquierdo()).append(",").
                     append(fichas.get(0).getValorDerecho()).append(")");
@@ -95,7 +104,7 @@ public class Main {
             if (fichas.get(i).getValorIzquierdo() == fichas.get(i - 1).coincidencia(fichas.get(i)))
                 fichotas.append("(").append(fichas.get(i).getValorIzquierdo()).append(",").
                         append(fichas.get(i).getValorDerecho()).append(")");
-            if (fichas.get(i).getValorDerecho() == fichas.get(i - 1).coincidencia(fichas.get(i)))
+            else if (fichas.get(i).getValorDerecho() == fichas.get(i - 1).coincidencia(fichas.get(i)))
                 fichotas.append("(").append(fichas.get(i).getValorDerecho()).append(",").
                         append(fichas.get(i).getValorIzquierdo()).append(")");
         }

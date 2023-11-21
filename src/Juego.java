@@ -34,41 +34,48 @@ public class Juego {
             }
         }
 
-
         Random random = new Random();
 
         Collections.shuffle(monton, random);
+
         while (fichasJugador1.size() < nFichasJugador) {
             fichasJugador1.add(monton.remove(0));
             fichasJugador2.add(monton.remove(0));
         }
+
         jugador1 = new Jugador(fichasJugador1);
         jugador2 = new Jugador(fichasJugador2);
+
         Ficha mayorDoble1 = getMayorDoble(fichasJugador1);
         Ficha mayorDoble2 = getMayorDoble(fichasJugador2);
 
         if (mayorDoble1 != null && mayorDoble2 != null) {
-
             if (mayorDoble1.compareTo(mayorDoble2) < 0) {
                 jugador2.setTurno(true);
+                ponerFicha(mayorDoble2);
+                jugador2.getFichas().remove(mayorDoble2);
             } else {
                 jugador1.setTurno(true);
+                ponerFicha(mayorDoble1);
+                jugador1.getFichas().remove(mayorDoble1);
             }
-
         } else if (mayorDoble1 != null) {
-
             jugador1.setTurno(true);
-
+            ponerFicha(mayorDoble1);
+            jugador1.getFichas().remove(mayorDoble1);
         } else if (mayorDoble2 != null) {
             jugador2.setTurno(true);
+            ponerFicha(mayorDoble2);
+            jugador2.getFichas().remove(mayorDoble2);
         } else {
             int turno = (int)(Math.random() * 2) + 1;
             if (turno == 1) jugador1.setTurno(true);
             else jugador2.setTurno(true);
         }
+
     }
 
-    public boolean ponerFicha(Ficha ficha){
+    public boolean ponerFicha(Ficha ficha) {
         return ponerFicha(ficha, Lado.izquierda);
     }
 
@@ -101,7 +108,6 @@ public class Juego {
     public boolean obtenerFichaDelMonton(Jugador jugador){
         return jugador.addFicha(monton.remove(0));
     }
-
 
     Ficha getMayorDoble(List<Ficha> fichas) {
         return fichas.stream().filter(ficha -> ficha.getValorDerecho() == ficha.getValorIzquierdo())
