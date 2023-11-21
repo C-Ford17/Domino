@@ -27,7 +27,7 @@ public class Ficha implements Comparable<Ficha> {
     }
 
     public int noCoincidencia(Ficha ficha){
-        if (valorDerecho == ficha.valorDerecho || valorDerecho == ficha.valorIzquierdo) return valorIzquierdo;
+        if (ficha.contiene(valorDerecho)) return valorIzquierdo;
         return valorDerecho;
     }
 }
