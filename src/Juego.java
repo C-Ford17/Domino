@@ -83,4 +83,18 @@ public class Juego {
         Juego juego = new Juego();
 
     }
+
+    public int numeroLibre(Lado lado) {
+        if (lado == Lado.derecha) {
+            Ficha ultima = fichasEnMesa.getLast();
+            Ficha penultima = fichasEnMesa.get(fichasEnMesa.size() - 2);
+
+            return ultima.noCoincidencia(penultima);
+        } else {
+            Ficha primera = fichasEnMesa.getFirst();
+            Ficha segunda = fichasEnMesa.get(1);
+
+            return primera.noCoincidencia(segunda);
+        }
+    }
 }
