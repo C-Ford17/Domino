@@ -18,7 +18,6 @@ public class Juego {
             }
         }
 
-
         Random random = new Random();
 
         Collections.shuffle(monton, random);
@@ -53,10 +52,10 @@ public class Juego {
     }
 
     public boolean ponerFicha(Jugador jugador, Ficha ficha){
-        return ponerFicha(jugador,ficha, Lado.izquierda);
+        return ponerFicha(jugador, ficha, Lado.izquierda);
     }
 
-    public boolean ponerFicha(Jugador jugador,Ficha ficha, Lado lado){
+    public boolean ponerFicha(Jugador jugador,Ficha ficha, Lado lado) {
         jugador.setTurno(false);
         if (jugador1.equals(jugador)) jugador2.setTurno(true);
         else jugador1.setTurno(true);
@@ -81,6 +80,9 @@ public class Juego {
 
     public static void main(String[] args) {
         Juego juego = new Juego();
+
+        juego.ponerFicha(juego.jugador1, juego.jugador1.getFichas().remove(0), );
+
 
     }
 
