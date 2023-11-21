@@ -30,4 +30,17 @@ public class Ficha implements Comparable<Ficha> {
         if (ficha.contiene(valorDerecho)) return valorIzquierdo;
         return valorDerecho;
     }
+
+    public int coincidencia(Ficha ficha){
+        if (ficha.contiene(valorDerecho)) return valorDerecho;
+        return valorIzquierdo;
+    }
+
+    @Override
+    public String toString() {
+        return "Ficha{" +
+                "valorIzquierdo=" + valorIzquierdo +
+                ", valorDerecho=" + valorDerecho +
+                '}';
+    }
 }
