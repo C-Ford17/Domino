@@ -73,24 +73,29 @@ public class Juego {
     }
 
     public boolean ponerFicha(Ficha ficha, Lado lado){
-        if (jugadorConTurno().equals(jugador1)) {
-            jugador1.setTurno(false);
-            jugador2.setTurno(true);
+        boolean laPuso = false;
+        if (fichasEnMesa.isEmpty() || ficha.contiene(numeroLibre(lado))) {
+            if (fichasEnMesa.isEmpty()) {
+                fichasEnMesa.add(ficha);
+                laPuso = true;
+            } else if (lado.equals(Lado.izquierda)) {
+                fichasEnMesa.addFirst(ficha);
+                laPuso = true;
+            } else if (lado.equals(Lado.derecha)) {
+                fichasEnMesa.addLast(ficha);
+                laPuso = true;
+            }
+            if (laPuso) {
+                if (jugadorConTurno().equals(jugador1)) {
+                    jugador1.setTurno(false);
+                    jugador2.setTurno(true);
+                } else {
+                    jugador2.setTurno(false);
+                    jugador1.setTurno(true);
+                }
+            }
         }
-        if (jugadorConTurno().equals(jugador2)){
-            jugador2.setTurno(false);
-            jugador1.setTurno(true);
-        }
-        if (fichasEnMesa.isEmpty()) return fichasEnMesa.add(ficha);
-        if (lado.equals(Lado.izquierda) && ficha.contiene(numeroLibre(lado))) {
-            fichasEnMesa.addFirst(ficha);
-            return true;
-        }
-        if (lado.equals(Lado.derecha) && ficha.contiene(numeroLibre(lado))) {
-            fichasEnMesa.addLast(ficha);
-            return true;
-        }
-        return false;
+        return laPuso;
     }
 
     public boolean obtenerFichaDelMonton(Jugador jugador){
