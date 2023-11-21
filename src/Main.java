@@ -7,36 +7,55 @@ public class Main {
         Juego juego = new Juego();
         int opcion = 0;
         Jugador jugador;
-        while(!juego.termino() && opcion != -1){
+        while (!juego.termino() && opcion != -1) {
             jugador = juego.jugadorConTurno();
             String fichas = "";
-            if (!juego.getFichasEnMesa().isEmpty()) fichas = mostrarFichasEnMesa(juego.getFichasEnMesa()) + "\n";
+
             StringBuilder menu1 = new StringBuilder();
-            menu1.append(fichas).append("¿Que quieres hacer?\n").
+
+            menu1.append("[Jugando]: ").append((jugador == juego.getJugador1() ? "jugador1\n" : "jugador2\n"));
+
+            if (!juego.getFichasEnMesa().isEmpty())
+                fichas = mostrarFichasEnMesa(juego.getFichasEnMesa()) + "\n";
+            else
+                menu1.append("\n[No hay fichas en la mesa]\n");
+
+
+            menu1.append(fichas).append("\n¿Que quieres hacer?\n").
                     append("1. Poner ficha\n").append("2. Agarrar ficha del monton\n").append("3. Salir");
-            opcion = Integer.parseInt(JOptionPane.showInputDialog(menu1));
-            switch (opcion){
-                case 1:
+
+            try {
+                opcion = Integer.parseInt(JOptionPane.showInputDialog(menu1));
+            } catch (NumberFormatException err) {
+                continue;
+            }
+
+            switch (opcion) {
+                case 1: // Poner ficha
                     StringBuilder menu2 = new StringBuilder();
                     menu2.append(fichas).append(listarFichasJugador(jugador.getFichas()));
                     int opcion1 = Integer.parseInt(JOptionPane.showInputDialog(menu2));
-                    String[] opciones = {"Izquierda","Derecha"};
-                    if (!juego.getFichasEnMesa().isEmpty()){
+                    String[] opciones = {"Izquierda", "Derecha"};
+
+                    if (!juego.getFichasEnMesa().isEmpty()) {
+
                         int ladoOpcion = JOptionPane.showOptionDialog(null, fichas + "¿En que lado la vas a colocar?",
-                                "Seleccion de lado", JOptionPane.DEFAULT_OPTION,JOptionPane.PLAIN_MESSAGE,null ,opciones,opciones[0]);
+                                "Seleccion de lado", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opciones, opciones[0]);
+
                         Lado lado = null;
-                        if(ladoOpcion == 0) lado= Lado.izquierda;
+
+                        if (ladoOpcion == 0) lado = Lado.izquierda;
                         else lado = Lado.derecha;
-                        if (juego.ponerFicha(jugador.getFichas().get(opcion1-1), lado)){
-                            jugador.getFichas().remove(opcion1-1);
+
+                        if (juego.ponerFicha(jugador.getFichas().get(opcion1 - 1), lado)) {
+                            jugador.getFichas().remove(opcion1 - 1);
                             JOptionPane.showMessageDialog(null, "Se ha puesto la ficha correctamente");
-                        }else JOptionPane.showMessageDialog(null, "No se ha podido poner la ficha");
-                    }
-                    else {
-                        if (juego.ponerFicha(jugador.getFichas().get(opcion1-1))){
-                            jugador.getFichas().remove(opcion1-1);
+                        } else JOptionPane.showMessageDialog(null, "No se ha podido poner la ficha");
+                    } else {
+                        if (juego.ponerFicha(jugador.getFichas().get(opcion1 - 1))) {
+                            jugador.getFichas().remove(opcion1 - 1);
                             JOptionPane.showMessageDialog(null, "Se ha puesto la ficha correctamente");
-                        }else JOptionPane.showMessageDialog(null, "No se ha podido poner la ficha");
+                        } else JOptionPane.showMessageDialog(null, "No se ha podido poner la ficha");
                     }
 
                     break;
@@ -51,18 +70,18 @@ public class Main {
         }
     }
 
-    public static String listarFichasJugador(List<Ficha> fichas){
+    public static String listarFichasJugador(List<Ficha> fichas) {
         StringBuilder fichitas = new StringBuilder();
         for (int i = 0; i < fichas.size(); i++) {
-            fichitas.append(i+1).append(". (").append(fichas.get(i).getValorIzquierdo()).append(",").
-                append(fichas.get(i).getValorDerecho()).append(")").append("\n");
+            fichitas.append(i + 1).append(". (").append(fichas.get(i).getValorIzquierdo()).append(",").
+                    append(fichas.get(i).getValorDerecho()).append(")").append("\n");
         }
         return fichitas.toString();
     }
 
     public static String mostrarFichasEnMesa(LinkedList<Ficha> fichas) {
         StringBuilder fichotas = new StringBuilder();
-        if (fichas.size() == 1){
+        if (fichas.size() == 1) {
             fichotas.append("(").append(fichas.get(0).getValorIzquierdo()).append(",").
                     append(fichas.get(0).getValorDerecho()).append(")");
             return fichotas.toString();
