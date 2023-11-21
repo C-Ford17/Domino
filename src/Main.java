@@ -9,7 +9,8 @@ public class Main {
         Jugador jugador;
         while(!juego.termino() && opcion != -1){
             jugador = juego.jugadorConTurno();
-            String fichas = mostrarFichasEnMesa(juego.getFichasEnMesa()) + "\n";
+            String fichas = "";
+            if (!juego.getFichasEnMesa().isEmpty()) fichas = mostrarFichasEnMesa(juego.getFichasEnMesa()) + "\n";
             StringBuilder menu1 = new StringBuilder();
             menu1.append(fichas).append("¿Que quieres hacer?\n").
                     append("1. Poner ficha\n").append("2. Agarrar ficha del monton\n").append("3. Salir");
@@ -59,20 +60,25 @@ public class Main {
         return fichitas.toString();
     }
 
-    public static String mostrarFichasEnMesa(LinkedList<Ficha> fichas){
+    public static String mostrarFichasEnMesa(LinkedList<Ficha> fichas) {
         StringBuilder fichotas = new StringBuilder();
-
-        for (int i = 0; i < fichas.size(); i++) {
-            if (fichas.size() > 1 && i < fichas.size()-1){
-                if (fichas.get(i).getValorDerecho() == fichas.get(i+1).coincidencia(fichas.get(i))){
-                    fichotas.append("(").append(fichas.get(i).getValorIzquierdo()).append(",").
-                            append(fichas.get(i).getValorDerecho()).append(")");
-                }
-                else fichotas.append("(").append(fichas.get(i).getValorDerecho()).append(",").
+        if (fichas.size() == 1){
+            fichotas.append("(").append(fichas.get(0).getValorIzquierdo()).append(",").
+                    append(fichas.get(0).getValorDerecho()).append(")");
+            return fichotas.toString();
+        }
+        if (fichas.get(0).getValorDerecho() == fichas.get(1).coincidencia(fichas.get(0)))
+            fichotas.append("(").append(fichas.get(0).getValorIzquierdo()).append(",").
+                    append(fichas.get(0).getValorDerecho()).append(")");
+        else fichotas.append("(").append(fichas.get(0).getValorDerecho()).append(",").
+                append(fichas.get(0).getValorIzquierdo()).append(")");
+        for (int i = 1; i < fichas.size(); i++) {
+            if (fichas.get(i).getValorIzquierdo() == fichas.get(i - 1).coincidencia(fichas.get(i)))
+                fichotas.append("(").append(fichas.get(i).getValorIzquierdo()).append(",").
+                        append(fichas.get(i).getValorDerecho()).append(")");
+            if (fichas.get(i).getValorDerecho() == fichas.get(i - 1).coincidencia(fichas.get(i)))
+                fichotas.append("(").append(fichas.get(i).getValorDerecho()).append(",").
                         append(fichas.get(i).getValorIzquierdo()).append(")");
-            }
-            else fichotas.append("(").append(fichas.get(i).getValorIzquierdo()).append(",").
-                    append(fichas.get(i).getValorDerecho()).append(")");
         }
         return fichotas.toString();
     }
