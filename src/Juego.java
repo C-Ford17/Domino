@@ -61,7 +61,7 @@ public class Juego {
         if (jugador1.equals(jugador)) jugador2.setTurno(true);
         else jugador1.setTurno(true);
         if (fichasEnMesa.isEmpty()) return fichasEnMesa.add(ficha);
-        if (lado.equals(Lado.izquierda) && ficha.getValorDerecho() == fichasEnMesa.getFirst().getValorIzquierdo()){
+        if (lado.equals(Lado.izquierda) && ficha.contiene(fichasEnMesa.getFirst().getValorIzquierdo())) {
             fichasEnMesa.addFirst(ficha);
             return true;
         }
@@ -76,7 +76,7 @@ public class Juego {
 
     Ficha getMayorDoble(List<Ficha> fichas) {
         return fichas.stream().filter(ficha -> ficha.getValorDerecho() == ficha.getValorIzquierdo())
-                .max((f1, f2) -> f1.compareTo(f2)).orElse(null);
+                .max(Ficha::compareTo).orElse(null);
     }
 
     public static void main(String[] args) {

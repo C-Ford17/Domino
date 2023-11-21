@@ -21,4 +21,8 @@ public class Ficha implements Comparable<Ficha> {
     public int compareTo(Ficha o) {
         return getValorDerecho() - o.getValorDerecho();
     }
+
+    public boolean contiene(int numero) {
+        return valorDerecho == numero || valorIzquierdo == numero;
+    }
 }
