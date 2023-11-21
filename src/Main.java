@@ -6,11 +6,10 @@ public class Main {
     public static void main(String[] args) {
         Juego juego = new Juego();
         int opcion = 0;
+        Jugador jugador;
         while(!juego.termino() && opcion != -1){
-            Jugador jugador = juego.jugadorConTurno();
-            String fichasJugador = listarFichasJugador(jugador.getFichas()) + "\n";
+            jugador = juego.jugadorConTurno();
             String fichas = mostrarFichasEnMesa(juego.getFichasEnMesa()) + "\n";
-            System.out.println(fichas);
             StringBuilder menu1 = new StringBuilder();
             menu1.append(fichas).append("¿Que quieres hacer?\n").
                     append("1. Poner ficha\n").append("2. Agarrar ficha del monton\n").append("3. Salir");

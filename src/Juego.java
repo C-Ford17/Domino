@@ -43,7 +43,7 @@ public class Juego {
             fichasJugador2.add(monton.remove(0));
         }
         jugador1 = new Jugador(fichasJugador1);
-        jugador2 = new Jugador(fichasJugador1);
+        jugador2 = new Jugador(fichasJugador2);
         Ficha mayorDoble1 = getMayorDoble(fichasJugador1);
         Ficha mayorDoble2 = getMayorDoble(fichasJugador2);
 
@@ -73,8 +73,14 @@ public class Juego {
     }
 
     public boolean ponerFicha(Ficha ficha, Lado lado){
-        jugadorConTurno().setTurno(false);
-        jugadorSinTurno().setTurno(true);
+        if (jugadorConTurno().equals(jugador1)) {
+            jugador1.setTurno(false);
+            jugador2.setTurno(true);
+        }
+        if (jugadorConTurno().equals(jugador2)){
+            jugador2.setTurno(false);
+            jugador1.setTurno(true);
+        }
         if (fichasEnMesa.isEmpty()) return fichasEnMesa.add(ficha);
         if (lado.equals(Lado.izquierda) && ficha.contiene(numeroLibre(lado))) {
             fichasEnMesa.addFirst(ficha);
