@@ -13,6 +13,10 @@ public class Jugador {
         return fichas;
     }
 
+    public boolean addFicha(Ficha ficha){
+        return fichas.add(ficha);
+    }
+
     public void setTurno(boolean turno) {
         this.turno = turno;
     }

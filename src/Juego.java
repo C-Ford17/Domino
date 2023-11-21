@@ -7,6 +7,22 @@ public class Juego {
     private Jugador jugador2;
     private static final int nFichasJugador = 7;
 
+    public List<Ficha> getMonton() {
+        return monton;
+    }
+
+    public LinkedList<Ficha> getFichasEnMesa() {
+        return fichasEnMesa;
+    }
+
+    public Jugador getJugador1() {
+        return jugador1;
+    }
+
+    public Jugador getJugador2() {
+        return jugador2;
+    }
+
     public Juego() {
         monton = new ArrayList<>();
         fichasEnMesa = new LinkedList<>();
@@ -52,25 +68,27 @@ public class Juego {
         }
     }
 
-    public boolean ponerFicha(Jugador jugador, Ficha ficha){
-        return ponerFicha(jugador,ficha, Lado.izquierda);
+    public boolean ponerFicha(Ficha ficha){
+        return ponerFicha(ficha, Lado.izquierda);
     }
 
-    public boolean ponerFicha(Jugador jugador,Ficha ficha, Lado lado){
-        jugador.setTurno(false);
-        if (jugador1.equals(jugador)) jugador2.setTurno(true);
-        else jugador1.setTurno(true);
+    public boolean ponerFicha(Ficha ficha, Lado lado){
+        jugadorConTurno().setTurno(false);
+        jugadorSinTurno().setTurno(true);
         if (fichasEnMesa.isEmpty()) return fichasEnMesa.add(ficha);
-        if (lado.equals(Lado.izquierda) && ficha.contiene(fichasEnMesa.getFirst().getValorIzquierdo())) {
+        if (lado.equals(Lado.izquierda) && ficha.contiene(numeroLibre(lado))) {
             fichasEnMesa.addFirst(ficha);
             return true;
         }
-        if (lado.equals(Lado.derecha) && ficha.getValorIzquierdo() == fichasEnMesa.getLast().getValorDerecho()){
+        if (lado.equals(Lado.derecha) && ficha.contiene(numeroLibre(lado))) {
             fichasEnMesa.addLast(ficha);
             return true;
         }
-        System.out.println("No es tu turno");
         return false;
+    }
+
+    public boolean obtenerFichaDelMonton(Jugador jugador){
+        return jugador.addFicha(monton.remove(0));
     }
 
 
@@ -79,22 +97,35 @@ public class Juego {
                 .max(Ficha::compareTo).orElse(null);
     }
 
-    public static void main(String[] args) {
-        Juego juego = new Juego();
+    public Jugador jugadorConTurno(){
+        if (jugador1.isTurno()) return jugador1;
+        return jugador2;
+    }
 
+    public Jugador jugadorSinTurno(){
+        if (jugador1.isTurno()) return jugador2;
+        return jugador1;
     }
 
     public int numeroLibre(Lado lado) {
-        if (lado == Lado.derecha) {
-            Ficha ultima = fichasEnMesa.getLast();
-            Ficha penultima = fichasEnMesa.get(fichasEnMesa.size() - 2);
+        if (fichasEnMesa.size() != 1) {
+            if (lado == Lado.derecha) {
+                Ficha ultima = fichasEnMesa.getLast();
+                Ficha penultima = fichasEnMesa.get(fichasEnMesa.size() - 2);
 
-            return ultima.noCoincidencia(penultima);
-        } else {
-            Ficha primera = fichasEnMesa.getFirst();
-            Ficha segunda = fichasEnMesa.get(1);
+                return ultima.noCoincidencia(penultima);
+            } else {
+                Ficha primera = fichasEnMesa.getFirst();
+                Ficha segunda = fichasEnMesa.get(1);
 
-            return primera.noCoincidencia(segunda);
+                return primera.noCoincidencia(segunda);
+            }
         }
+        if (lado == Lado.derecha) return fichasEnMesa.getLast().getValorDerecho();
+        return fichasEnMesa.getLast().getValorIzquierdo();
+    }
+
+    public boolean termino(){
+        return jugador1.getFichas().isEmpty() || jugador2.getFichas().isEmpty();
     }
 }
