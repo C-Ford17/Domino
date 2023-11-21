@@ -1,2 +1,3 @@
-package PACKAGE_NAME;public enum Lado {
+public enum Lado {
+    izquierda,derecha
 }
