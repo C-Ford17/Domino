@@ -1,6 +1,6 @@
 public class Ficha implements Comparable<Ficha> {
-    private int valorIzquierdo;
-    private int valorDerecho;
+    private final int valorIzquierdo;
+    private final int valorDerecho;
 
     public Ficha(int valorIzquierdo, int valorDerecho) {
         assert(0 <= valorIzquierdo && valorIzquierdo <= 6);
@@ -24,5 +24,10 @@ public class Ficha implements Comparable<Ficha> {
 
     public boolean contiene(int numero) {
         return valorDerecho == numero || valorIzquierdo == numero;
+    }
+
+    public int noCoincidencia(Ficha ficha){
+        if (valorDerecho == ficha.valorDerecho || valorDerecho == ficha.valorIzquierdo) return valorIzquierdo;
+        return valorDerecho;
     }
 }
